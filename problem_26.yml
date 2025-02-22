@@ -1,0 +1,30 @@
+# Create a playbook that removes a specific file from the target machine.
+- name: remove a specific file
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+
+  - name: remove file
+    file:
+      path: "{{ remove_file }}"
+      state: absent
+    become: yes
+
+  - name: check file exist or not
+    stat:
+      path: "{{ remove_file }}"
+    register: file_exist
+
+  - name: Print result
+    debug:
+      msg: "The file exists"
+    when: file_exist.stat.exists
+
+  - name: Print result
+    debug:
+      msg: "The file not exists"
+    when: not file_exist.stat.exists
+
+#  command to run is: ansible-playbook problem_26.yml -e 'remove_file= /tmp/file26.txt'

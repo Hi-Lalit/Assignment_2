@@ -1,0 +1,31 @@
+# Write a playbook that checks if a file exists and performs actions based on that condition.
+- name: check file exist or not and perform action
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+
+  - name: check file exist or not
+    stat:
+      path: "{{ file_name }}"
+    register: file_exist
+
+  - name: Print result
+    debug:
+      msg: "The file exists"
+    when: file_exist.stat.exists
+
+  - name: Print result
+    debug:
+      msg: "The file not exists"
+    when: not file_exist.stat.exists
+
+  - name: create file
+    file:
+      path: "{{ file_name }}"
+      state: touch
+    become: yes
+    when: not file_exist.stat.exists
+
+# command to run is: ansible-playbook problem_10.yml -e 'file_name=/tmp/c12.txt'

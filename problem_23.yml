@@ -1,0 +1,19 @@
+# Write a playbook that installs the Apache web server on a target machine.
+- name: install Apache web server
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: Apache web server
+    apt:
+      name: apache2
+      state: present
+    become: yes
+    register: package_status
+
+  - name: print result
+    debug:
+      msg: "{{ package_status }}"
+
+# command: ansible-playbook problem_23.yml

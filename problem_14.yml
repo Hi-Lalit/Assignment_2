@@ -1,0 +1,17 @@
+# Create a playbook that sets up a Python virtual environment in a specified directory.
+- name: create a python virtual environment
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+  tasks:
+  - name: create a directory
+    file:
+      path: /tmp/env_dir
+      state: directory
+    become: yes
+
+  - name: create a virtual environment
+    command: python3 -m venv /tmp/env_dir
+    become: yes
+
+# command: ansible-playbook problem_14.yml

@@ -1,0 +1,19 @@
+# Create a playbook that checks if a package is installed and installs it if it is not.
+- name: install a package if not not install
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: check package exist or not
+    package_facts:
+      manager: auto
+
+  - name: install a package
+    apt:
+      name: "{{ package }}"
+      state: present
+    become: yes
+    when: package not in ansible_facts.packages
+
+# command: ansible-playbook problem_30.yml

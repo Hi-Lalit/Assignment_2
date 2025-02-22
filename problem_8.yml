@@ -1,0 +1,14 @@
+# Write a playbook that runs the command uptime on the target machine and captures the output.
+- name: run uptime
+  hosts: localhost
+  tasks:
+  - name: uptime
+    command:
+      cmd: uptime
+    register: uptime_result
+
+  - name: print result
+    debug:
+      msg: "{{ uptime_result.stdout }}"
+
+# command: ansible-playbook problem_8.yml

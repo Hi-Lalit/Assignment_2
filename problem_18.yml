@@ -1,0 +1,18 @@
+# Create a playbook that creates a new group named devs on the target machine.
+
+- name: create a group
+  hosts: localhost
+
+  tasks:
+  - name: group
+    group:
+      name: devs
+      state: present
+    become: yes
+    register: group_status
+
+  - name: print result
+    debug:
+      msg: "group_status: {{ group_status }}"
+
+# command: ansible-playbook problem_17.yml

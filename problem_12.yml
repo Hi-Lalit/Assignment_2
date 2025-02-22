@@ -1,0 +1,31 @@
+# Create a playbook that backs up a specific file (e.g., /etc/hosts) to a backup directory.
+
+- name: backup file
+  hosts: localhost
+
+  tasks:
+  - name: create a directory for backup
+    file:
+      path: /home/backup_dir
+      state: directory
+    become: yes
+
+  - name: create a file
+    file:
+      path: /tmp/newfile.txt
+      state: touch
+
+  - name: copy file with backup
+    copy:
+      src: /tmp/newfile.txt
+      dest: /home/backup_dir
+      remote_src: yes
+      backup: yes
+    become: yes
+    register: backup_result
+
+  - name: print result of backup
+    debug:
+      msg: "{{ backup_result }}"
+
+# command: ansible-playbook problem_12.yml

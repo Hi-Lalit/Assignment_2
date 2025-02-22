@@ -1,0 +1,30 @@
+# Write a playbook that ensures the nginx service is installed and running.
+- name: check nginx is running
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: install nginx
+    apt:
+      name: nginx
+      state: absent
+    register: package_status
+    become: yes
+
+  - name: check serivce
+    service:
+      name: nginx
+      state: started
+    register: service_status
+
+  - name: Print Installed and service status
+    set_fact:
+      installation_result: "{{ [{'installation_status': 'installation failed' if package_status.failed else 'installed successfully' }] }}"
+      service_status: "{{ [{'Service_Status': 'Running' if 'preset: enabled' else 'not enable' }] }}"
+
+  - name: print result
+    debug:
+      msg: "{{ installation_result }}, {{ service_status }}"
+
+# command: ansible-playbook problem_6.yml

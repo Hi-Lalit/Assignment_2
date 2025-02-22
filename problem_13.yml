@@ -1,0 +1,25 @@
+# Write a playbook that installs multiple packages (e.g., git, vim, and htop) in one task.
+
+- name: Playbook to install multiple packages
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: install packages
+    apt:
+      name: "{{ package_names }}"
+      state: present
+    become: yes
+    loop: "{{ package_names }}"
+    tags: install_packages
+
+  - name: uninstall package
+    apt:
+      name: "{{ package_names }}"
+      state: present
+    become: yes
+    loop: "{{ package_names }}"
+    tags: uninstall_package
+
+# command to run playbook is: ansible-playbook problem_13.yml -e 'package_names=["nginx","redis-server"]'

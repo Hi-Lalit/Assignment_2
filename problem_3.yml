@@ -1,0 +1,11 @@
+# Create a playbook that creates a directory named /tmp/my_directory on the target machine.
+- name: create a directory
+  hosts: localhost
+
+  tasks:
+  - name: a directory
+    file:
+      path: /tmp/my_directory
+      state: directory
+
+# command: ansible-playbook problem_3.yml

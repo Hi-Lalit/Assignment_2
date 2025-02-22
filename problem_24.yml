@@ -1,0 +1,25 @@
+# Create a playbook that starts and enables the Apache service to run on boot.
+- name: starts and enables the Apache service
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: Install Apache web server
+    apt:
+      name: apache2
+      state: present
+    become: yes
+
+  - name: Apache service start
+    service:
+      name: apache2
+      state: started
+      enabled: yes
+    register: service_status
+
+  - name: print result
+    debug:
+      msg: "{{ service_status.state }}"
+
+# command: ansible-playbook problem_24.yml

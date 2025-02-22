@@ -1,0 +1,24 @@
+# Create a playbook that changes the permissions of a file or directory.
+- name: change the permission
+  hosts: localhost
+
+  tasks:
+  - name: create a file
+    file:
+      path: /tmp/per_file.txt
+      state: touch
+    become: yes
+    register: file_status
+
+  - name: change permission
+    file:
+      path: /tmp/per_file.txt
+      mode: "0755"
+    become: yes
+    register: per_status
+
+  - name: print result
+    debug:
+      msg: "file_status: {{ file_status.mode }}, permission_status: {{ per_status.mode }}"
+
+# command: ansible-playbook problem_16.yml

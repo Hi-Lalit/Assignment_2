@@ -1,0 +1,25 @@
+# Create a playbook that sets up a cron job to run a script every day at 5 AM.
+- name: Create a cron job
+  hosts: localhost
+
+  tasks:
+  - name: create a file
+    file:
+      path: /tmp/cron_file.txt
+      state: touch
+    become: yes
+  - name: cron job
+    cron:
+      name: run a script everyday at 5 AM
+      minute: 0
+      hour: 5
+      day: "*"
+      user: lalit
+      job: /tmp/cron_fil.txt
+    register: cron_result
+
+  - name: print result
+    debug:
+      msg: "{{ cron_result }}"
+
+# command: ansible-playbook problem_9.yml

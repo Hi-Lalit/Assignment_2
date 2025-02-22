@@ -1,0 +1,13 @@
+# Write a playbook that configures the firewalld to allow specific ports (e.g., HTTP and HTTPS)
+
+- name: configures the firewalld to allow specific ports
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: congigures the firewalld
+    ufw:
+      port: 80/tcp
+      state: enabled
+    become: yes
