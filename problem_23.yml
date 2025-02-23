@@ -8,7 +8,7 @@
   - name: Apache web server
     apt:
       name: apache2
-      state: present
+      state: absent
     become: yes
     register: package_status
 
