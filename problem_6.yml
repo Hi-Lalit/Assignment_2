@@ -8,20 +8,21 @@
   - name: install nginx
     apt:
       name: nginx
-      state: absent
+      state: present
     register: package_status
     become: yes
 
-  - name: check serivce
+  - name: check service
     service:
       name: nginx
       state: started
+      enabled: yes
     register: service_status
 
   - name: Print Installed and service status
     set_fact:
       installation_result: "{{ [{'installation_status': 'installation failed' if package_status.failed else 'installed successfully' }] }}"
-      service_status: "{{ [{'Service_Status': 'Running' if 'preset: enabled' else 'not enable' }] }}"
+      service_status: "{{ [{'Service_Status': 'Running' if  service_status.state == 'started' else 'not enable' }] }}"
 
   - name: print result
     debug:
