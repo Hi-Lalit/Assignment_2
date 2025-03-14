@@ -1,0 +1,31 @@
+# Create a playbook that sets up a Python virtual environment in a specified directory.
+- name: create a python virtual environment
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+  tasks:
+
+  - name: install python3-venv
+    apt:
+      name: python3-venv
+      state: present
+    become: yes
+
+  - name: create a virtual environment
+    command: python3 -m venv /tmp/env_dir
+    become: yes
+
+  - name: check status virtual environment
+    stat:
+      path: /tmp/env_dir
+    register: venv_status
+
+  - name: print status
+    set_fact:
+      status: "{{'Virtual envieronment exists' if venv_status.stat.exists else 'Virtual environment not exists'}}"
+
+  - name: print status
+    debug:
+      var: status
+
+# command: ansible-playbook problem_14.yml

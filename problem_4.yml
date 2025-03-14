@@ -1,0 +1,17 @@
+# Write a playbook that copies a file from the control machine to the target machine.
+- name: copy a file
+  hosts: localhost
+
+  tasks:
+  - name: create a file
+    file:
+      path: /home/myfile.txt
+      state: touch
+    become: yes
+
+  - name: copy of a file
+    copy:
+      src: /home/myfile.txt
+      dest: /tmp/
+
+# command: ansible-playbook problem_4.yml

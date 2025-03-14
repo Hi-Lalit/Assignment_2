@@ -1,0 +1,11 @@
+# Write a playbook that downloads a file from a URL to the target machine.
+- name: download a file using get url
+  hosts: localhost
+
+  tasks:
+  - name: download a file
+    get_url:
+      url: "{{ my_url }}"
+      dest: /home/lalit/Downloads/
+
+# command: ansible-playbook problem_15.yml -e 'my_url=https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux'

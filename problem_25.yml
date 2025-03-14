@@ -1,0 +1,23 @@
+# Write a playbook that creates a file and writes some text to it.
+- name: create a file with some text
+  hosts: localhost
+
+  tasks:
+  - name: create a file
+    copy:
+      dest: /tmp/file25.txt
+      content: " Write a playbook that creates a file and writes some text to it."
+      state: present
+      mode: "0755"
+    register: file_result
+
+  - name: check content
+    command:
+      cmd: 'cat /tmp/file25.txt'
+    register: content
+
+  - name: print result
+    debug:
+      msg: "{{ file_result.state }}, file_content: {{ content.stdout }}"
+
+# command: ansible-playbook problem_25.yml

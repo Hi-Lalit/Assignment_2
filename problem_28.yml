@@ -1,0 +1,21 @@
+# Create a playbook that changes the ownership of a file to a specific user.
+- name: change ownership
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: create a file
+    file:
+      path: /tmp/own_file.txt
+      state: touch
+      owner: lalit
+    become: yes
+    register: file_status
+  - name: change ownership
+    file:
+      path: /tmp/own_file.txt
+      owner: root
+    become: yes
+
+# command: ansible-playbook problem_28.yml
