@@ -1,0 +1,17 @@
+# Create a playbook that adds a new user named testuser to the target machine.
+- name: create a user
+  hosts: localhost
+
+  tasks:
+  - name: create user
+    user:
+      name: testuser
+      state: present
+    become: yes
+    register: user_name
+
+  - name: print result
+    debug:
+      msg: "{{ user_name }}"
+
+# command: ansible-playbook problem_7.yml

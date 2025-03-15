@@ -1,0 +1,19 @@
+# Write a playbook that removes a user from the target machine.
+
+- name: remove a user
+  hosts: localhost
+
+  tasks:
+  - name: remove user
+    user:
+      name: testuser
+      state: absent
+      remove: yes
+    become: yes
+    register: user_status
+
+  - name: print result
+    debug:
+      msg: "user_status: {{ user_status }}"
+
+# command: ansible-playbook problem_19.yml

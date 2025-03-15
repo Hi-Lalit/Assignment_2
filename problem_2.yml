@@ -1,0 +1,22 @@
+# Write a playbook that installs the curl package on a target machine.
+- name: Playbook to install curl
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: curl
+    apt:
+      name: curl
+      state: present
+    become: yes
+    tags: install_curl
+
+  - name: curl
+    apt:
+      name: curl
+      state: absent
+    become: yes
+    tags: uninstall_curl
+
+# command: ansible-playbook problem_2.yml

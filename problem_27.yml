@@ -1,0 +1,27 @@
+# Write a playbook that sets up a cron job to run a script every hour.
+- name: Create a cron job
+  hosts: localhost
+
+  tasks:
+  - name: create a file
+    copy:
+      dest: /tmp/cron_file27.sh
+      content: |
+        #!/bin/bash
+        echo "Hello world" >> /tmp/cron_output.log      
+      mode: "0755"
+    become: yes
+
+  - name: cron job
+    cron:
+      name: run a script every hour
+      minute: "0"
+      user: lalit
+      job: "/bin/bash /tmp/cron_file27.sh"
+    register: cron_result
+
+  - name: print result
+    debug:
+      msg: "{{ cron_result }}"
+
+# command: ansible-playbook problem_27.yml

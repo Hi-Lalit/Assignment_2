@@ -1,0 +1,18 @@
+# Write a playbook that gathers facts about the target machine and displays them.
+- name: gather facts
+  hosts: localhost
+
+  tasks:
+  - name: gather fact
+    setup:
+      filter:
+      - 'ansible_distribution'
+      - 'ansible_machine_id'
+      - 'ansible_*_mb'
+    register: fact_result
+
+  - name: print result
+    debug:
+      msg: "{{ fact_result }}"
+
+# command: ansible-playbook problem_29.yml

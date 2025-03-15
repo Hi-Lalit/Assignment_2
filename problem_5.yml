@@ -1,0 +1,36 @@
+# Create a playbook that uses a Jinja2 template to generate a configuration file.
+- name: install nginx
+  hosts: localhost
+  become_method: su
+  become_exe: sudo su -
+
+  tasks:
+  - name: nginx
+    apt:
+      name: nginx
+      state: present
+    become: yes
+    tags: install_nginx
+    register: nginx_result
+
+  - name: nginx_info
+    debug:
+      # msg: "{{ nginx_result.invocation.module_args.name }} is {{ nginx_result.invocation.module_args.state }}"
+      msg: "{{ nginx_result }}"
+
+  - name: nginx_result
+    set_fact:
+      result: "{{'installation failed' if nginx_result.failed else 'installation successful' }}"
+
+  - name: render a template
+    template:
+      src: nginx.conf.html.j2
+      dest: nginx.conf.html
+  # - name: nginx
+  #   apt:
+  #     name: nginx
+  #     state: absent
+  #   become: yes
+  #   tags: uninstall_nginx
+
+  # command: ansible-playbook problem_5.yml

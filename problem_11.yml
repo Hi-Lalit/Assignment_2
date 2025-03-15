@@ -1,0 +1,14 @@
+# Write a playbook that checks the disk space on the target machine and prints the output.
+- name: check disk space
+  hosts: localhost
+  tasks:
+  - name: disk space
+    command:
+      cmd: df -h
+    register: disk_space
+
+  - name: print result
+    debug:
+      msg: "{{ disk_space.stdout_lines }}"
+
+# command: ansible-playbook problem_11.yml

@@ -1,0 +1,10 @@
+# Create a basic playbook that includes a name, hosts, and a simple task.
+- name: basic playbook
+  hosts: localhost
+
+  tasks:
+  - name: print Hello World
+    debug:
+      msg: " Hello World! "
+
+# command: ansible-playbook problem_22.yml
